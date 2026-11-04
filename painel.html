@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2B1A10">
+<title>Painel da loja · Empadas Gourmet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --choc-900:#231308; --choc-800:#2B1A10; --choc-700:#3A2517;
+    --gold-300:#EFD9A7; --gold-400:#DDB85E; --gold-500:#C99D3F; --gold-700:#8A6414;
+    --cream-50:#FBF7EF; --cream-100:#F4EDDE; --paper:#FFFFFF;
+    --line:#E7DCC8; --ink:#2B1A10; --ink-muted:#6E5A49;
+    --novo:#C99D3F; --fazendo:#2563EB; --pronto:#2F7D46; --late:#B3261E;
+    --shadow-card:0 1px 2px rgba(43,26,16,.05), 0 4px 16px rgba(43,26,16,.06);
+    --safe-b:env(safe-area-inset-bottom,0px);
+    --dur:200ms;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    margin:0;background:var(--cream-50);color:var(--ink);
+    font:16px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    padding-bottom:calc(24px + var(--safe-b));
+    touch-action:manipulation;
+  }
+  .num{font-variant-numeric:tabular-nums}
+
+  header{
+    position:sticky;top:0;z-index:20;
+    background:var(--choc-800);color:var(--gold-300);
+  }
+  header::after{
+    content:"";display:block;height:5px;
+    background:
+      linear-gradient(var(--gold-500),var(--gold-500)) top/100% 2px no-repeat,
+      linear-gradient(var(--gold-700),var(--gold-700)) bottom/100% 1px no-repeat;
+  }
+  .hin{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:14px 18px}
+  .hin h1{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:18px;font-weight:600;margin:0;flex:1;color:var(--gold-400);
+    letter-spacing:.04em;
+  }
+  .hin h1 small{
+    display:block;font-family:Inter,sans-serif;font-size:10px;font-weight:600;
+    color:var(--gold-300);opacity:.75;letter-spacing:.28em;text-transform:uppercase;margin-top:3px;
+  }
+  .back{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--gold-300);text-decoration:none;font-size:13px;white-space:nowrap;
+    padding:10px 12px;border:1px solid rgba(201,157,63,.4);border-radius:10px;
+  }
+  .back svg{width:14px;height:14px}
+
+  main{max-width:640px;margin:0 auto;padding:18px}
+
+  .tabs{display:flex;gap:8px;margin-bottom:18px}
+  .tab{
+    flex:1;background:var(--paper);border:1.5px solid var(--line);color:var(--ink-muted);
+    border-radius:12px;min-height:62px;padding:9px 5px;
+    font:600 12.5px Inter,sans-serif;cursor:pointer;text-align:center;
+    transition:border-color var(--dur),color var(--dur),background var(--dur);
+  }
+  .tab b{display:block;font-size:21px;line-height:1.25;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .tab[aria-selected="true"]{
+    border-color:var(--gold-500);background:var(--choc-800);color:var(--gold-300);
+  }
+  .tab[aria-selected="true"] b{color:var(--gold-400)}
+
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:15px;
+    padding:15px;margin-bottom:12px;border-left:5px solid var(--line);
+    box-shadow:var(--shadow-card);
+  }
+  .card.novo{border-left-color:var(--novo)}
+  .card.fazendo{border-left-color:var(--fazendo)}
+  .card.pronto{border-left-color:var(--pronto);opacity:.6}
+
+  .ctop{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+  .ctop .who{flex:1;min-width:0}
+  .who .nm{font-size:16.5px;font-weight:700}
+  .who .mt{font-size:12px;color:var(--ink-muted);margin-top:2px}
+  .badge{
+    font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 9px;border-radius:6px;white-space:nowrap;
+  }
+  .badge.novo{background:#F7EBCF;color:#6E5006;border:1px solid var(--gold-500)}
+  .badge.fazendo{background:#E3ECFD;color:#1D4FBF;border:1px solid #93B4F5}
+  .badge.pronto{background:#E2F2E7;color:#1E5C32;border:1px solid #8FC9A2}
+
+  .when{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--cream-100);color:var(--gold-700);
+    border-radius:8px;padding:7px 11px;font-size:13px;font-weight:700;margin-bottom:10px;
+    font-variant-numeric:tabular-nums;
+  }
+  .when svg{width:14px;height:14px;flex:0 0 14px}
+  .when.late{background:#FBE9E7;color:var(--late)}
+
+  .itens{border-top:1px solid var(--line);padding-top:10px;margin-bottom:10px}
+  .li{display:flex;justify-content:space-between;font-size:14.5px;padding:3px 0}
+  .li .q{color:var(--gold-700);font-weight:700;margin-right:8px;font-variant-numeric:tabular-nums}
+  .li > span:last-child{font-variant-numeric:tabular-nums}
+  .obs{
+    font-size:13px;background:var(--cream-100);border-left:3px solid var(--gold-500);
+    padding:9px 12px;border-radius:8px;margin-bottom:10px;
+  }
+  .cbot{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .tot{
+    flex:1;font-size:18px;font-weight:700;color:var(--choc-800);white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+  .tot small{display:block;font-size:11.5px;color:var(--ink-muted);font-weight:400}
+  .act{
+    background:linear-gradient(180deg,var(--gold-400),var(--gold-500));
+    color:var(--choc-900);border:none;border-radius:11px;
+    min-height:48px;padding:0 18px;font:700 14.5px Inter,sans-serif;cursor:pointer;
+    transition:transform var(--dur),filter var(--dur);
+  }
+  .act:active{transform:scale(.97);filter:brightness(.95)}
+  .act.blue{background:var(--fazendo);color:#FFF}
+  .act.ghost{
+    background:transparent;border:1.5px solid var(--line);color:var(--ink-muted);font-weight:600;
+  }
+  .wa{
+    display:inline-flex;align-items:center;gap:7px;
+    background:transparent;border:1.5px solid var(--line);color:var(--ink-muted);
+    border-radius:11px;min-height:48px;padding:0 15px;
+    font:600 14px Inter,sans-serif;cursor:pointer;text-decoration:none;
+  }
+  .wa svg{width:16px;height:16px}
+
+  .empty{text-align:center;color:var(--ink-muted);padding:54px 20px;font-size:14px}
+  .empty svg{width:46px;height:46px;display:block;margin:0 auto 14px;color:var(--gold-500);opacity:.6}
+
+  .proto{
+    background:var(--cream-100);border:1px dashed var(--gold-500);border-radius:12px;
+    padding:12px 14px;font-size:12px;color:var(--gold-700);margin-top:22px;
+  }
+  .proto button{
+    background:transparent;border:1px solid var(--gold-500);color:var(--gold-700);
+    border-radius:8px;min-height:40px;padding:0 13px;
+    font:600 12px Inter,sans-serif;cursor:pointer;margin-top:10px;margin-right:7px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hin">
+    <h1>Pedidos<small>Empadas Gourmet · Castelo</small></h1>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      Ver loja
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="tabs" role="tablist">
+    <button class="tab" data-f="ativos" aria-selected="true">
+      <b id="cAtivos">0</b>Para fazer
+    </button>
+    <button class="tab" data-f="pronto" aria-selected="false">
+      <b id="cPronto">0</b>Prontos
+    </button>
+    <button class="tab" data-f="todos" aria-selected="false">
+      <b id="cTodos">0</b>Todos
+    </button>
+  </div>
+
+  <div id="list"></div>
+
+  <div class="proto">
+    <b>Protótipo sem servidor.</b> Os pedidos ficam salvos só neste navegador
+    (vêm da tela da loja). No sistema real, chegam por push com alerta sonoro
+    e aparecem em qualquer aparelho.
+    <br>
+    <button id="demo">Gerar pedidos de exemplo</button>
+    <button id="clear">Limpar tudo</button>
+  </div>
+</main>
+
+<script>
+const WHATS_FMT = t => t.replace(/\D/g,'');
+const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
+const $ = s => document.querySelector(s);
+
+const SVG_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+const SVG_ALERT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+const SVG_CHAT  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
+const SVG_PIE   = '<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 56c0-10 8-17 18-17s18 7 18 17"/><path d="M27 56h42"/><path d="M31 56l2.5 8c.5 1.6 2 2.6 3.6 2.6h21.8c1.6 0 3.1-1 3.6-2.6l2.5-8"/><path d="M42 32c-1.5-2.5 1.5-4 0-6.5M48 31c-1.5-2.5 1.5-4 0-6.5M54 32c-1.5-2.5 1.5-4 0-6.5"/></svg>';
+
+let filtro = 'ativos';
+
+function load(){
+  try { return JSON.parse(localStorage.getItem('eg_pedidos') || '[]'); }
+  catch(e){ return []; }
+}
+function save(p){ localStorage.setItem('eg_pedidos', JSON.stringify(p)); }
+
+function hhmm(iso){
+  const d = new Date(iso);
+  return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+/* a janela de retirada já passou? (só faz sentido para pedidos de hoje) */
+function atrasado(p){
+  if (p.status === 'pronto' || !p.slot) return false;
+  if (p.dia && p.dia !== 'hoje') return false;
+  const fim = p.slot.split('-')[1];
+  if (!fim) return false;
+  const [h,m] = fim.split(':').map(Number);
+  const now = new Date();
+  return (now.getHours()*60 + now.getMinutes()) > (h*60 + m);
+}
+
+function render(){
+  const all = load();
+  const ativos = all.filter(p => p.status !== 'pronto');
+  const prontos = all.filter(p => p.status === 'pronto');
+
+  $('#cAtivos').textContent = ativos.length;
+  $('#cPronto').textContent = prontos.length;
+  $('#cTodos').textContent = all.length;
+
+  const show = filtro === 'ativos' ? ativos : filtro === 'pronto' ? prontos : all;
+
+  if (!show.length){
+    $('#list').innerHTML = `<div class="empty">${SVG_PIE}
+      ${filtro === 'ativos' ? 'Nenhum pedido na fila.' : 'Nada aqui ainda.'}</div>`;
+    return;
+  }
+
+  $('#list').innerHTML = show.map(p => {
+    const i = all.indexOf(p);
+    const st = p.status || 'novo';
+    const late = atrasado(p);
+    return `
+    <div class="card ${st}">
+      <div class="ctop">
+        <div class="who">
+          <div class="nm">${p.nome || 'Sem nome'}</div>
+          <div class="mt">Retirar na loja · pedido ${hhmm(p.ts)} · ${p.pag || '—'}</div>
+        </div>
+        <span class="badge ${st}">${
+          st === 'novo' ? 'Novo' : st === 'fazendo' ? 'Fazendo' : 'Pronto'
+        }</span>
+      </div>
+
+      ${p.slot ? `<div class="when ${late ? 'late' : ''}">
+        ${late ? SVG_ALERT + ' passou da hora · ' : SVG_CLOCK + ' retirada '}${
+          p.dia && p.dia !== 'hoje' ? p.dia + ' ' : ''
+        }${p.slot.replace('-','–')}
+      </div>` : ''}
+
+      <div class="itens">
+        ${p.itens.map(it => `<div class="li">
+          <span><span class="q">${it.q}×</span>${it.n}</span>
+          <span>${brl(it.sub)}</span></div>`).join('')}
+      </div>
+
+      ${p.obs ? `<div class="obs"><b>Obs.:</b> ${p.obs}</div>` : ''}
+
+      <div class="cbot">
+        <div class="tot">${brl(p.total)}<small>${p.tel || ''}</small></div>
+        ${p.tel ? `<a class="wa" href="https://wa.me/55${WHATS_FMT(p.tel)}" target="_blank" rel="noopener">${SVG_CHAT} WhatsApp</a>` : ''}
+        ${st === 'novo'    ? `<button class="act blue" data-i="${i}" data-s="fazendo">Começar</button>` : ''}
+        ${st === 'fazendo' ? `<button class="act" data-i="${i}" data-s="pronto">Está pronto</button>` : ''}
+        ${st === 'pronto'  ? `<button class="act ghost" data-i="${i}" data-s="novo">Reabrir</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('.act[data-i]').forEach(b => {
+    b.onclick = () => {
+      const all = load();
+      all[+b.dataset.i].status = b.dataset.s;
+      save(all); render();
+    };
+  });
+}
+
+document.querySelectorAll('.tab').forEach(t => {
+  t.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected','false'));
+    t.setAttribute('aria-selected','true');
+    filtro = t.dataset.f;
+    render();
+  };
+});
+
+$('#clear').onclick = () => {
+  if (confirm('Apagar todos os pedidos deste navegador?')){
+    localStorage.removeItem('eg_pedidos'); render();
+  }
+};
+
+$('#demo').onclick = () => {
+  const now = new Date();
+  const slotDe = off => {
+    const d = new Date(now.getTime() + off*60000);
+    const a = String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+    const e = new Date(d.getTime() + 15*60000);
+    const b = String(e.getHours()).padStart(2,'0')+':'+String(e.getMinutes()).padStart(2,'0');
+    return `${a}-${b}`;
+  };
+  const ex = [
+    { ts:new Date(now.getTime()-2*60000).toISOString(), nome:'Juliana Reis', tel:'31988776655',
+      slot:slotDe(20), dia:'hoje', pag:'Pix', obs:'',
+      itens:[{n:'Frango com catupiry',q:2,sub:15},{n:'Café grande',q:1,sub:5.5}],
+      total:20.50, status:'novo' },
+    { ts:new Date(now.getTime()-9*60000).toISOString(), nome:'Marcos Vinícius', tel:'31997654321',
+      slot:slotDe(35), dia:'hoje', pag:'Cartão na retirada', obs:'Café sem açúcar',
+      itens:[{n:'Coxinha de frango com catupiry',q:4,sub:30},{n:'Refrigerante lata 350 ml',q:2,sub:14}],
+      total:44.00, status:'fazendo' },
+    { ts:new Date(now.getTime()-40*60000).toISOString(), nome:'Ana Paula', tel:'31991112233',
+      slot:slotDe(-20), dia:'hoje', pag:'Dinheiro', obs:'Sem azeitona',
+      itens:[{n:'Esfirra',q:3,sub:22.5},{n:'Kibe',q:2,sub:15}],
+      total:37.50, status:'novo' },
+    { ts:new Date(now.getTime()-95*60000).toISOString(), nome:'Rogério Salles', tel:'31993334444',
+      slot:slotDe(-70), dia:'hoje', pag:'Pix', obs:'',
+      itens:[{n:'Quatro queijos com palmito',q:6,sub:48},{n:'Suco natural 400 ml',q:2,sub:19}],
+      total:67.00, status:'pronto' }
+  ];
+  save([...ex, ...load()]);
+  render();
+};
+
+render();
+setInterval(render, 30000);
+</script>
+</body>
+</html>

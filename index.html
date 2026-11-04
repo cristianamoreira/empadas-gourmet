@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2B1A10">
+<title>Empadas Gourmet · Castelo BH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ------ tokens: identidade do brasão ------ */
+    --choc-900:#231308;        /* chocolate profundo (fundo do brasão) */
+    --choc-800:#2B1A10;
+    --choc-700:#3A2517;
+    --gold-300:#EFD9A7;        /* dourado claro / reflexo */
+    --gold-400:#DDB85E;
+    --gold-500:#C99D3F;        /* dourado metálico principal */
+    --gold-700:#8A6414;        /* dourado escurecido p/ texto pequeno AA */
+    --cream-50:#FBF7EF;        /* fundo página (creme de confeitaria) */
+    --cream-100:#F4EDDE;
+    --paper:#FFFFFF;
+    --line:#E7DCC8;            /* hairline quente */
+    --ink:#2B1A10;             /* texto principal = chocolate */
+    --ink-muted:#6E5A49;       /* texto secundário ≥4.5:1 em branco */
+    --ok:#2F7D46;
+    --danger:#B3261E;
+    --r-card:14px;
+    --r-pill:999px;
+    --shadow-card:0 1px 2px rgba(43,26,16,.05), 0 4px 16px rgba(43,26,16,.06);
+    --shadow-float:0 -4px 24px rgba(43,26,16,.14);
+    --safe-b:env(safe-area-inset-bottom,0px);
+    --dur:200ms;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--cream-50); color:var(--ink);
+    font:16px/1.55 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    padding-bottom:calc(92px + var(--safe-b));
+    touch-action:manipulation;
+  }
+  .serif{font-family:"Playfair Display",Georgia,serif}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ============ HEADER — o brasão ============ */
+  header{
+    background:
+      radial-gradient(120% 90% at 50% -20%, var(--choc-700) 0%, var(--choc-800) 55%, var(--choc-900) 100%);
+    color:var(--gold-300);
+    position:relative;
+  }
+  /* dupla linha dourada, eco dos anéis do brasão */
+  header::after{
+    content:"";display:block;height:6px;
+    background:
+      linear-gradient(var(--gold-500),var(--gold-500)) top/100% 2px no-repeat,
+      linear-gradient(var(--gold-700),var(--gold-700)) bottom/100% 1px no-repeat;
+  }
+  .hwrap{max-width:560px;margin:0 auto;padding:22px 20px 18px;text-align:center}
+  .seal{width:84px;height:84px;margin:0 auto 10px;display:block}
+  .wordmark{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:27px;font-weight:700;letter-spacing:.16em;
+    color:var(--gold-400);text-transform:uppercase;line-height:1.1;
+  }
+  .ornament{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    margin-top:6px;color:var(--gold-500);
+    font-size:10.5px;font-weight:600;letter-spacing:.42em;text-transform:uppercase;
+  }
+  .ornament::before,.ornament::after{
+    content:"";height:1px;width:34px;background:var(--gold-700);
+  }
+  .statusbar{
+    display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+    font-size:12.5px;font-weight:500;color:var(--gold-300);
+    background:rgba(0,0,0,.32);border:1px solid rgba(201,157,63,.35);
+    padding:7px 14px;border-radius:var(--r-pill);
+  }
+  .dot{width:8px;height:8px;border-radius:50%;flex:0 0 8px;background:#9A8E80}
+  .dot.on{background:#54C97B;box-shadow:0 0 6px rgba(84,201,123,.8)}
+
+  /* ============ LAYOUT ============ */
+  main{max-width:560px;margin:0 auto;padding:0 18px}
+
+  .pitch{margin:26px 2px 6px;text-align:center}
+  .pitch h1{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:24px;font-weight:600;margin:0 0 6px;letter-spacing:.01em;
+  }
+  .pitch p{font-size:14px;color:var(--ink-muted);margin:0 auto;max-width:34ch}
+
+  /* ============ SECTIONS ============ */
+  .sec{margin-top:34px}
+  .sec-h{
+    display:flex;align-items:center;gap:12px;margin-bottom:4px;
+  }
+  .sec-h::before,.sec-h::after{content:"";height:1px;flex:1;background:var(--line)}
+  .sec-t{
+    font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold-700);white-space:nowrap;
+  }
+  .sec-d{font-size:13px;color:var(--ink-muted);text-align:center;margin:6px 0 14px}
+  .sec > .items{margin-top:14px}
+
+  /* ============ ITEMS ============ */
+  .item{
+    display:flex;align-items:center;gap:12px;
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--r-card);
+    padding:13px 14px;margin-bottom:9px;box-shadow:var(--shadow-card);
+  }
+  .item-b{flex:1;min-width:0}
+  .item-n{font-size:14.5px;font-weight:600;letter-spacing:.005em}
+  .item-p{
+    font-size:14.5px;font-weight:700;color:var(--choc-800);white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ============ STEPPER ============ */
+  .step{display:flex;align-items:center;flex:0 0 auto}
+  .sbtn{
+    width:44px;height:44px;border-radius:12px;
+    border:1.5px solid var(--line);background:var(--cream-50);color:var(--ink);
+    display:grid;place-items:center;cursor:pointer;padding:0;
+    transition:transform var(--dur) ease,background var(--dur) ease,border-color var(--dur) ease;
+  }
+  .sbtn svg{width:16px;height:16px}
+  .sbtn:active{transform:scale(.94)}
+  .sbtn.add{border-color:var(--gold-500);background:#FDF8EC;color:var(--gold-700)}
+  .qty{
+    min-width:34px;text-align:center;font-weight:700;font-size:15px;
+    font-variant-numeric:tabular-nums;
+  }
+  .step.zero .qty,.step.zero .minus{display:none}
+
+  /* ============ CART BAR ============ */
+  .cartbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:var(--choc-800);
+    border-top:2px solid var(--gold-500);
+    box-shadow:var(--shadow-float);
+    padding:12px 18px calc(12px + var(--safe-b));
+    transform:translateY(130%);transition:transform 240ms ease;
+  }
+  .cartbar.show{transform:none}
+  .cartbar-in{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:14px}
+  .cartbar-s{flex:1;min-width:0}
+  .cartbar-q{font-size:11.5px;color:var(--gold-300);opacity:.8}
+  .cartbar-v{
+    font-size:19px;font-weight:700;color:var(--gold-400);
+    font-variant-numeric:tabular-nums;
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    background:linear-gradient(180deg,var(--gold-400),var(--gold-500));
+    color:var(--choc-900);border:none;border-radius:12px;
+    min-height:48px;padding:0 22px;font:600 15px Inter,sans-serif;cursor:pointer;
+    transition:transform var(--dur) ease,filter var(--dur) ease;
+  }
+  .btn:active{transform:scale(.98);filter:brightness(.96)}
+  .btn.full{width:100%}
+  .btn.ghost{
+    background:transparent;border:1.5px solid var(--line);
+    color:var(--ink-muted);font-weight:500;
+  }
+
+  /* ============ SHEET ============ */
+  .ov{
+    position:fixed;inset:0;z-index:60;background:rgba(35,19,8,.55);
+    opacity:0;pointer-events:none;transition:opacity var(--dur);
+  }
+  .ov.show{opacity:1;pointer-events:auto}
+  .sheet{
+    position:fixed;left:0;right:0;bottom:0;z-index:70;
+    background:var(--cream-50);
+    border-top:2px solid var(--gold-500);
+    border-radius:22px 22px 0 0;max-height:92dvh;overflow-y:auto;
+    transform:translateY(100%);transition:transform 260ms ease;
+    padding:0 18px calc(24px + var(--safe-b));
+  }
+  .sheet.show{transform:none}
+  .sheet-in{max-width:560px;margin:0 auto}
+  .grab{width:40px;height:4px;background:var(--line);border-radius:9px;margin:12px auto 16px}
+  .sheet h2{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:21px;font-weight:600;margin:0 0 2px;
+  }
+  .sheet .hint{font-size:12.5px;color:var(--ink-muted);margin:0 0 16px}
+
+  .row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;font-size:14px}
+  .row .nm{flex:1;min-width:0}
+  .row .v{white-space:nowrap;font-variant-numeric:tabular-nums}
+  .row.dim{color:var(--ink-muted);font-size:13px}
+  .row.tot{
+    border-top:1px solid var(--line);margin-top:8px;padding-top:13px;
+    font-size:17px;font-weight:700;
+  }
+  .row.tot .v{color:var(--gold-700)}
+
+  label.fld{display:block;margin:14px 0 0}
+  label.fld span, .fld-t{
+    display:block;font-size:11px;font-weight:600;color:var(--ink-muted);
+    margin-bottom:6px;letter-spacing:.14em;text-transform:uppercase;
+  }
+  input,select,textarea{
+    width:100%;background:var(--paper);border:1.5px solid var(--line);
+    color:var(--ink);border-radius:11px;padding:13px;min-height:48px;
+    font:15px Inter,sans-serif;
+    transition:border-color var(--dur) ease;
+  }
+  input:focus,select:focus,textarea:focus{
+    outline:2px solid var(--gold-500);outline-offset:1px;border-color:var(--gold-500);
+  }
+  textarea{resize:vertical;min-height:64px}
+
+  .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+  .slot{
+    background:var(--paper);border:1.5px solid var(--line);color:var(--ink);
+    border-radius:11px;min-height:46px;font:600 13.5px Inter,sans-serif;
+    font-variant-numeric:tabular-nums;
+    cursor:pointer;text-align:center;
+    transition:border-color var(--dur),background var(--dur),color var(--dur);
+  }
+  .slot[aria-pressed="true"]{
+    border-color:var(--gold-500);background:var(--choc-800);color:var(--gold-300);
+  }
+
+  /* ============ FOOTER ============ */
+  footer{
+    margin-top:44px;background:var(--choc-800);color:var(--gold-300);
+    border-top:2px solid var(--gold-500);
+  }
+  .fwrap{max-width:560px;margin:0 auto;padding:26px 20px 30px;font-size:13px}
+  .fbrand{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:16px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--gold-400);margin-bottom:10px;
+  }
+  .frow{display:flex;gap:9px;align-items:flex-start;margin:7px 0;opacity:.92}
+  .frow svg{width:15px;height:15px;flex:0 0 15px;margin-top:2.5px;color:var(--gold-500)}
+  .hrs{display:flex;justify-content:space-between;max-width:250px;margin:4px 0 4px 24px}
+  .hrs span:last-child{font-variant-numeric:tabular-nums}
+  .fnote{margin-top:12px;font-size:11px;opacity:.55}
+
+  .proto{
+    background:var(--cream-100);border:1px dashed var(--gold-500);border-radius:12px;
+    padding:12px 14px;font-size:12px;color:var(--gold-700);margin:26px 0 0;
+  }
+  .adminlink{
+    display:block;text-align:center;margin:18px 0 0;font-size:12px;
+    color:var(--ink-muted);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <!-- selo: versão SVG do brasão da parede -->
+    <svg class="seal" viewBox="0 0 96 96" role="img" aria-label="Brasão Empadas Gourmet">
+      <circle cx="48" cy="48" r="46" fill="#231308"/>
+      <circle cx="48" cy="48" r="45" fill="none" stroke="#C99D3F" stroke-width="2"/>
+      <circle cx="48" cy="48" r="39" fill="none" stroke="#C99D3F" stroke-width="1" opacity=".7"/>
+      <!-- empada -->
+      <g stroke="#DDB85E" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M30 56c0-10 8-17 18-17s18 7 18 17"/>
+        <path d="M27 56h42"/>
+        <path d="M31 56l2.5 8c.5 1.6 2 2.6 3.6 2.6h21.8c1.6 0 3.1-1 3.6-2.6l2.5-8"/>
+        <path d="M36 39c1.5-3 4-5 7-6M60 39c-1.5-3-4-5-7-6" opacity=".0"/>
+      </g>
+      <!-- vapor -->
+      <g stroke="#DDB85E" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".9">
+        <path d="M42 32c-1.5-2.5 1.5-4 0-6.5"/>
+        <path d="M48 31c-1.5-2.5 1.5-4 0-6.5"/>
+        <path d="M54 32c-1.5-2.5 1.5-4 0-6.5"/>
+      </g>
+      <!-- frisos -->
+      <path d="M30 70h36" stroke="#C99D3F" stroke-width="1.2" opacity=".75"/>
+    </svg>
+    <div class="wordmark">Empadas</div>
+    <div class="ornament">Gourmet</div>
+    <div class="statusbar">
+      <span class="dot" id="dot"></span>
+      <span id="statusTxt">—</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="pitch">
+    <h1>Peça agora, retire sem fila</h1>
+    <p>Você escolhe a hora de buscar, a gente separa e deixa pronto no balcão.</p>
+  </div>
+
+  <div id="menu"></div>
+
+  <div class="proto">
+    <b>Protótipo.</b> Todos os itens e preços são os do cardápio real da loja.
+    Falta confirmar o horário de funcionamento com o dono.
+  </div>
+
+  <a class="adminlink" href="painel.html">Ver painel da loja (visão das funcionárias) →</a>
+</main>
+
+<footer>
+  <div class="fwrap">
+    <div class="fbrand">Empadas Gourmet</div>
+    <div class="frow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Av. Miguel Perrela, 987 — loja 17<br>Castelo, Belo Horizonte/MG · Ao lado do supermercado EPA</span>
+    </div>
+    <div class="frow" style="margin-top:14px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span style="font-weight:600">Horário</span>
+    </div>
+    <div class="hrs"><span>Segunda a sexta</span><span>07:00 – 19:00</span></div>
+    <div class="hrs"><span>Sábado</span><span>07:00 – 14:00</span></div>
+    <div class="hrs"><span>Domingo</span><span>Fechado</span></div>
+    <div class="fnote">Horários a confirmar com o dono.</div>
+  </div>
+</footer>
+
+<div class="cartbar" id="cartbar">
+  <div class="cartbar-in">
+    <div class="cartbar-s">
+      <div class="cartbar-q" id="cartQ">—</div>
+      <div class="cartbar-v num" id="cartV">R$ 0,00</div>
+    </div>
+    <button class="btn" id="openCart">Fazer pedido</button>
+  </div>
+</div>
+
+<div class="ov" id="ov"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Seu pedido">
+  <div class="sheet-in" id="sheetIn"></div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — ajustar com os dados reais do dono
+   ============================================================ */
+const CFG = {
+  whatsapp: '5531999950503',      // celular pessoal do proprietário (provisório até ter número do negócio)
+  prepMin: 20,
+  slotMin: 15,
+  horario: {
+    0: null,
+    1: [7*60, 19*60], 2: [7*60, 19*60], 3: [7*60, 19*60],
+    4: [7*60, 19*60], 5: [7*60, 19*60],
+    6: [7*60, 14*60]
+  }
+};
+
+/* ============================================================
+   CARDÁPIO — exatamente o que está no quadro da loja
+   ============================================================ */
+const MENU = [
+  {
+    t:'Empadas', d:'Assadas na hora.',
+    items:[
+      {id:'e1', n:'Frango', p:7.50},
+      {id:'e2', n:'Frango com catupiry', p:7.50},
+      {id:'e3', n:'Frango com azeitona', p:7.50},
+      {id:'e4', n:'Frango com cheddar', p:7.50},
+      {id:'e5', n:'Frango com bacon e catupiry', p:7.50},
+      {id:'e6', n:'Frango com palmito', p:7.50},
+      {id:'e7', n:'Quatro queijos com palmito', p:8.00}
+    ]
+  },
+  {
+    t:'Salgados', d:'',
+    items:[
+      {id:'s1', n:'Coxinha de frango', p:7.50},
+      {id:'s2', n:'Coxinha de frango com catupiry', p:7.50},
+      {id:'s3', n:'Enrolado de salsicha', p:7.50},
+      {id:'s4', n:'Enrolado de mussarela e presunto', p:7.50},
+      {id:'s5', n:'Pastel português', p:7.50},
+      {id:'s6', n:'Pastel assado', p:7.50},
+      {id:'s7', n:'Pastel de presunto e mussarela', p:7.50},
+      {id:'s8', n:'Esfirra', p:7.50},
+      {id:'s9', n:'Kibe', p:7.50}
+    ]
+  },
+  {
+    t:'Bebidas', d:'',
+    items:[
+      {id:'b1', n:'Refrigerante lata 350 ml', p:7.00},
+      {id:'b2', n:'Refrigerante mini', p:3.50},
+      {id:'b3', n:'Suco lata', p:7.00},
+      {id:'b4', n:'Suco natural 300 ml', p:8.00},
+      {id:'b5', n:'Suco natural 400 ml', p:9.50},
+      {id:'b6', n:'Água mineral', p:3.50},
+      {id:'b7', n:'Água com gás', p:4.50}
+    ]
+  },
+  {
+    t:'Bebidas quentes', d:'',
+    items:[
+      {id:'q1', n:'Café pequeno', p:3.00},
+      {id:'q2', n:'Café grande', p:5.50},
+      {id:'q3', n:'Café com leite pequeno', p:4.50},
+      {id:'q4', n:'Café com leite grande', p:6.50},
+      {id:'q5', n:'Achocolatado pequeno', p:5.00},
+      {id:'q6', n:'Achocolatado grande', p:7.00}
+    ]
+  }
+];
+
+/* ============================================================
+   ESTADO
+   ============================================================ */
+let cart = {};
+let slot = null;
+
+const ALL = {};
+MENU.forEach(s => s.items.forEach(i => ALL[i.id] = {...i, sec:s.t}));
+
+const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
+const $ = s => document.querySelector(s);
+const DIAS = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+
+const SVG_MINUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+const SVG_PLUS  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+
+/* ============================================================
+   HORÁRIO
+   ============================================================ */
+function hojeHorario(d){ return CFG.horario[d.getDay()]; }
+
+function estaAberto(d){
+  const h = hojeHorario(d);
+  if (!h) return false;
+  const m = d.getHours()*60 + d.getMinutes();
+  return m >= h[0] && m < h[1];
+}
+
+function proximaAbertura(from){
+  const d = new Date(from);
+  for (let k = 0; k < 8; k++){
+    const h = CFG.horario[d.getDay()];
+    if (h){
+      const m = (k === 0) ? from.getHours()*60 + from.getMinutes() : -1;
+      if (m < h[0]){
+        const r = new Date(d);
+        r.setHours(Math.floor(h[0]/60), h[0]%60, 0, 0);
+        return r;
+      }
+    }
+    d.setDate(d.getDate() + 1);
+    d.setHours(0,0,0,0);
+    from = d;
+  }
+  return null;
+}
+
+function renderStatus(){
+  const now = new Date();
+  const aberto = estaAberto(now);
+  $('#dot').className = 'dot ' + (aberto ? 'on' : '');
+  if (aberto){
+    const h = hojeHorario(now);
+    const fecha = String(Math.floor(h[1]/60)).padStart(2,'0') + ':' + String(h[1]%60).padStart(2,'0');
+    $('#statusTxt').textContent = `Aberto agora · fecha às ${fecha}`;
+  } else {
+    const nx = proximaAbertura(now);
+    if (nx){
+      const hh = String(nx.getHours()).padStart(2,'0') + ':' + String(nx.getMinutes()).padStart(2,'0');
+      $('#statusTxt').textContent = nx.toDateString() === now.toDateString()
+        ? `Fechado · abre hoje às ${hh}`
+        : `Fechado · abre ${DIAS[nx.getDay()]} às ${hh}`;
+    } else {
+      $('#statusTxt').textContent = 'Fechado';
+    }
+  }
+}
+
+function janelas(){
+  const now = new Date();
+  const out = [];
+  let base, h;
+
+  if (estaAberto(now)){
+    base = new Date(now.getTime() + CFG.prepMin*60000);
+    h = hojeHorario(now);
+  } else {
+    const nx = proximaAbertura(now);
+    if (!nx) return out;
+    base = nx;
+    h = CFG.horario[nx.getDay()];
+  }
+
+  const m0 = base.getHours()*60 + base.getMinutes();
+  let m = Math.ceil(m0 / CFG.slotMin) * CFG.slotMin;
+
+  while (m + CFG.slotMin <= h[1] && out.length < 9){
+    const a = String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0');
+    const e = m + CFG.slotMin;
+    const b = String(Math.floor(e/60)).padStart(2,'0') + ':' + String(e%60).padStart(2,'0');
+    out.push({key:`${a}-${b}`, label:`${a}–${b}`});
+    m += CFG.slotMin;
+  }
+  return out;
+}
+
+function diaJanelas(){
+  const now = new Date();
+  const d = estaAberto(now) ? now : proximaAbertura(now);
+  if (!d) return null;
+  if (d.toDateString() === now.toDateString()) return 'hoje';
+  const amanha = new Date(now); amanha.setDate(amanha.getDate() + 1);
+  const dm = String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0');
+  if (d.toDateString() === amanha.toDateString()) return `amanhã (${DIAS[d.getDay()]}, ${dm})`;
+  return `${DIAS[d.getDay()]}, ${dm}`;
+}
+
+/* ============================================================
+   RENDER DO MENU
+   ============================================================ */
+function renderMenu(){
+  $('#menu').innerHTML = MENU.map(s => `
+    <section class="sec">
+      <div class="sec-h"><span class="sec-t">${s.t}</span></div>
+      ${s.d ? `<p class="sec-d">${s.d}</p>` : ''}
+      <div class="items">
+        ${s.items.map(itemHTML).join('')}
+      </div>
+    </section>
+  `).join('');
+  bindSteppers();
+}
+
+function itemHTML(i){
+  const q = cart[i.id] || 0;
+  return `
+    <div class="item">
+      <div class="item-b"><div class="item-n">${i.n}</div></div>
+      <div class="item-p num">${brl(i.p)}</div>
+      <div class="step ${q === 0 ? 'zero' : ''}" data-id="${i.id}">
+        <button class="sbtn minus" data-act="dec" aria-label="Remover um ${i.n}">${SVG_MINUS}</button>
+        <span class="qty num">${q}</span>
+        <button class="sbtn add" data-act="inc" aria-label="Adicionar ${i.n}">${SVG_PLUS}</button>
+      </div>
+    </div>`;
+}
+
+function bindSteppers(){
+  document.querySelectorAll('.step').forEach(st => {
+    st.querySelectorAll('.sbtn').forEach(b => {
+      b.onclick = () => {
+        const id = st.dataset.id;
+        const cur = cart[id] || 0;
+        const next = b.dataset.act === 'inc' ? cur + 1 : cur - 1;
+        if (next <= 0) delete cart[id]; else cart[id] = next;
+        st.className = 'step ' + ((cart[id] || 0) === 0 ? 'zero' : '');
+        st.querySelector('.qty').textContent = cart[id] || 0;
+        renderCartBar();
+      };
+    });
+  });
+}
+
+/* ============================================================
+   CARRINHO
+   ============================================================ */
+function linhas(){
+  return Object.entries(cart).map(([id,q]) => ({...ALL[id], q, sub:ALL[id].p*q}));
+}
+function total(){ return linhas().reduce((a,l) => a + l.sub, 0); }
+function totalQ(){ return Object.values(cart).reduce((a,b) => a+b, 0); }
+
+function renderCartBar(){
+  const q = totalQ();
+  $('#cartbar').classList.toggle('show', q > 0);
+  $('#cartQ').textContent = q === 1 ? '1 item' : `${q} itens`;
+  $('#cartV').textContent = brl(total());
+}
+
+/* ============================================================
+   SHEET / CHECKOUT
+   ============================================================ */
+function openSheet(html){
+  $('#sheetIn').innerHTML = '<div class="grab"></div>' + html;
+  $('#sheet').classList.add('show');
+  $('#ov').classList.add('show');
+}
+function closeSheet(){
+  $('#sheet').classList.remove('show');
+  $('#ov').classList.remove('show');
+}
+$('#ov').onclick = closeSheet;
+
+function checkout(){
+  const ls = linhas();
+  const js = janelas();
+  const dl = diaJanelas();
+
+  openSheet(`
+    <h2>Seu pedido</h2>
+    <p class="hint">Retirada no balcão</p>
+
+    ${ls.map(l => `
+      <div class="row"><span class="nm">${l.q}× ${l.n}</span>
+      <span class="v">${brl(l.sub)}</span></div>`).join('')}
+
+    <div class="row tot"><span class="nm">Total</span>
+      <span class="v">${brl(total())}</span></div>
+
+    <label class="fld"><span>Seu nome</span>
+      <input id="fNome" autocomplete="name" placeholder="Como te chamamos no balcão"></label>
+    <label class="fld"><span>Telefone</span>
+      <input id="fTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(31) 9"></label>
+
+    <div class="fld-t" style="margin-top:16px">Quando você vem buscar${dl ? ' · ' + dl : ''}</div>
+    ${dl && dl !== 'hoje'
+      ? `<p class="hint" style="margin:0 0 7px">A loja está fechada agora. As janelas abaixo são de <b>${dl}</b>.</p>`
+      : ''}
+    <div class="slots" id="slots">
+      ${js.length
+        ? js.map(s => `<button class="slot" data-k="${s.key}" aria-pressed="false">${s.label}</button>`).join('')
+        : '<div class="row dim">Sem janelas disponíveis. Escreva o dia desejado na observação.</div>'}
+    </div>
+
+    <label class="fld"><span>Forma de pagamento</span>
+      <select id="fPag">
+        <option>Pix</option><option>Cartão na retirada</option><option>Dinheiro</option>
+      </select></label>
+
+    <label class="fld"><span>Observação</span>
+      <textarea id="fObs" placeholder="Ex.: sem azeitona, café sem açúcar..."></textarea></label>
+
+    <div style="margin-top:22px;display:grid;gap:9px">
+      <button class="btn full" id="send">Enviar pedido pelo WhatsApp</button>
+      <button class="btn ghost full" id="back">Voltar e adicionar mais</button>
+    </div>
+  `);
+
+  $('#back').onclick = closeSheet;
+
+  document.querySelectorAll('.slot').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('.slot').forEach(x => x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+      slot = b.dataset.k;
+    };
+  });
+
+  $('#send').onclick = enviar;
+}
+
+function enviar(){
+  const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
+  const nome = val('fNome');
+  const tel  = val('fTel');
+
+  if (!nome || !tel){
+    alert('Preencha nome e telefone para a loja confirmar o pedido.');
+    return;
+  }
+  if (janelas().length && !slot){
+    alert('Escolha a janela de horário da retirada.');
+    return;
+  }
+
+  const ls = linhas();
+  const dl = diaJanelas();
+
+  let t = '*PEDIDO — EMPADAS GOURMET*\n\n';
+  t += '*Tipo:* Retirar na loja\n';
+  t += `*Nome:* ${nome}\n*Telefone:* ${tel}\n`;
+  if (slot) t += `*Retirada:* ${dl || ''} entre ${slot.replace('-','–')}\n`;
+
+  t += '\n*ITENS*\n';
+  ls.forEach(l => { t += `${l.q}× ${l.n} — ${brl(l.sub)}\n`; });
+  t += `\n*TOTAL: ${brl(total())}*\n`;
+  t += `*Pagamento:* ${val('fPag')}\n`;
+  if (val('fObs')) t += `\n*Obs.:* ${val('fObs')}\n`;
+
+  try {
+    const hist = JSON.parse(localStorage.getItem('eg_pedidos') || '[]');
+    hist.unshift({
+      ts: new Date().toISOString(), nome, tel, slot, dia: dl,
+      itens: ls.map(l => ({n:l.n, q:l.q, sub:l.sub})),
+      total: total(), pag: val('fPag'), obs: val('fObs'),
+      status: 'novo'
+    });
+    localStorage.setItem('eg_pedidos', JSON.stringify(hist.slice(0,60)));
+  } catch(e){}
+
+  window.open(`https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(t)}`, '_blank');
+
+  cart = {}; slot = null;
+  closeSheet(); renderMenu(); renderCartBar();
+  openSheet(`
+    <h2>Pedido enviado</h2>
+    <p class="hint">Abrimos o WhatsApp da loja com o resumo. A confirmação vem por lá.</p>
+    <button class="btn full" onclick="document.getElementById('ov').click()">Fechar</button>
+  `);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+$('#openCart').onclick = checkout;
+
+renderStatus();
+renderMenu();
+renderCartBar();
+setInterval(renderStatus, 60000);
+</script>
+</body>
+</html>
